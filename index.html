@@ -2,7 +2,8 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Japan Trip">
@@ -24,13 +25,16 @@
   </header>
 
   <main class="app-content">
+    
     <section id="tab-timetable" class="tab-section active">
       <div class="calendar-strip" id="calendar-strip"></div>
+      
       <div class="card mt-15">
         <div class="card-header">
           <h2 id="current-date-title">Lade Datum...</h2>
           <button class="icon-btn text-accent" id="show-tt-form-btn"><i class="fa-solid fa-plus"></i></button>
         </div>
+        
         <div id="add-tt-form" class="mb-15" style="display: none; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
           <div class="input-row">
             <input type="time" id="tt-time" class="form-input" style="flex: 0.4;">
@@ -42,6 +46,7 @@
             <button id="cancel-tt-btn" class="secondary-btn small-padding">Abbrechen</button>
           </div>
         </div>
+
         <div class="timeline" id="timeline-content"></div>
       </div>
     </section>
@@ -51,6 +56,7 @@
         <p class="subtitle">Gesamtausgaben</p>
         <h1 class="total-spent" id="total-amount">0,00 €</h1>
       </div>
+
       <div class="card add-expense">
         <input type="text" id="expense-title" placeholder="Was war es? (z.B. Ramen)" class="form-input mb-10">
         <div class="input-row">
@@ -65,6 +71,7 @@
         </div>
         <button id="add-expense-btn" class="primary-btn mt-10"><i class="fa-solid fa-plus"></i> Hinzufügen</button>
       </div>
+
       <h3 class="section-title">Deine Ausgaben</h3>
       <div class="filter-bar mb-10">
         <button class="filter-btn active" data-filter="all">Alle</button>
@@ -79,7 +86,9 @@
 
     <section id="tab-docs" class="tab-section">
       <p class="subtitle mb-15">Dein lokaler Info-Tresor</p>
+      
       <div id="hub-list"></div>
+
       <div class="card mt-15" id="add-hub-form" style="display: none;">
         <h3>Neuer Eintrag</h3>
         <input type="text" id="hub-title" placeholder="Titel (z.B. Hotel)" class="form-input mt-10">
@@ -89,6 +98,7 @@
           <button id="cancel-hub-btn" class="secondary-btn small-padding">Abbrechen</button>
         </div>
       </div>
+      
       <button id="show-hub-form-btn" class="primary-btn mt-10"><i class="fa-solid fa-plus"></i> Eintrag hinzufügen</button>
     </section>
 
@@ -96,22 +106,28 @@
       <div id="bonus-menu">
         <ul class="ios-list">
           <li onclick="openBonusTool('tool-converter')">
-            <div class="li-left"><i class="fa-solid fa-yen-sign icon-bg-blue"></i> Währungsrechner</div><i class="fa-solid fa-chevron-right text-muted"></i>
+            <div class="li-left"><i class="fa-solid fa-yen-sign icon-bg-blue"></i> Währungsrechner</div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
           </li>
           <li onclick="openBonusTool('tool-checklist')">
-            <div class="li-left"><i class="fa-solid fa-check-square icon-bg-orange"></i> Packliste</div><i class="fa-solid fa-chevron-right text-muted"></i>
+            <div class="li-left"><i class="fa-solid fa-check-square icon-bg-orange"></i> Packliste</div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
           </li>
           <li onclick="openBonusTool('tool-translator')">
-            <div class="li-left"><i class="fa-solid fa-language icon-bg-accent"></i> Übersetzer</div><i class="fa-solid fa-chevron-right text-muted"></i>
+            <div class="li-left"><i class="fa-solid fa-language icon-bg-accent"></i> Übersetzer</div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
           </li>
           <li onclick="openBonusTool('tool-speak')">
-            <div class="li-left"><i class="fa-solid fa-comment-dots icon-bg-purple"></i> Point & Speak</div><i class="fa-solid fa-chevron-right text-muted"></i>
+            <div class="li-left"><i class="fa-solid fa-comment-dots icon-bg-purple"></i> Point & Speak</div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
           </li>
           <li onclick="openMapSearch('convenience store near me')">
-            <div class="li-left"><i class="fa-solid fa-trash-can icon-bg-green"></i> Müll Radar (Conbini)</div><i class="fa-solid fa-location-dot text-muted"></i>
+            <div class="li-left"><i class="fa-solid fa-trash-can icon-bg-green"></i> Müll Radar (Conbini)</div>
+            <i class="fa-solid fa-location-dot text-muted"></i>
           </li>
           <li onclick="openMapSearch('public toilet near me')">
-            <div class="li-left"><i class="fa-solid fa-restroom icon-bg-green"></i> WC Radar</div><i class="fa-solid fa-location-dot text-muted"></i>
+            <div class="li-left"><i class="fa-solid fa-restroom icon-bg-green"></i> WC Radar</div>
+            <i class="fa-solid fa-location-dot text-muted"></i>
           </li>
         </ul>
       </div>
@@ -119,7 +135,10 @@
       <div id="tool-converter" class="sub-page hidden">
         <button class="back-btn" onclick="closeBonusTool()"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
         <div class="card mt-15">
-          <div class="card-header"><h2>Live-Rechner</h2><span id="live-rate-badge" class="badge">Kurs lädt...</span></div>
+          <div class="card-header">
+            <h2>Live-Rechner</h2>
+            <span id="live-rate-badge" class="badge">Kurs lädt...</span>
+          </div>
           <div class="converter-box">
             <p class="subtitle mb-10">Yen eingeben:</p>
             <input type="number" id="yen-input" placeholder="¥ 1000" oninput="convertYen()">
@@ -134,7 +153,8 @@
         <button class="back-btn" onclick="closeBonusTool()"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
         <div class="card mt-15">
           <h2>Packliste</h2>
-          <ul class="checklist mt-15" id="checklist-items"></ul>
+          <ul class="checklist mt-15" id="checklist-items">
+            </ul>
           <div class="input-row mt-15 pt-15" style="border-top: 1px solid var(--border-color);">
             <input type="text" id="new-pack-item" placeholder="Neues Item..." class="form-input">
             <button id="add-pack-btn" class="primary-btn" style="flex: 0.3;"><i class="fa-solid fa-plus"></i></button>
@@ -147,15 +167,19 @@
         <div class="card mt-15">
           <h2>Übersetzer</h2>
           <p class="subtitle mb-15">Deutsch <i class="fa-solid fa-arrow-right mx-5"></i> Japanisch</p>
+          
           <div style="position: relative;">
             <textarea id="trans-input" class="form-input" placeholder="Text zum Übersetzen eingeben..." style="min-height: 100px; font-size: 18px; padding-right: 40px;"></textarea>
             <button class="icon-btn text-accent" onclick="playTTS('de')" style="position: absolute; right: 10px; top: 10px;" title="Deutsch vorlesen"><i class="fa-solid fa-volume-high"></i></button>
           </div>
+          
           <button class="primary-btn mt-10" id="trans-btn" onclick="translateText()"><i class="fa-solid fa-language"></i> Übersetzen</button>
+
           <div class="mt-15" id="trans-result-box" style="display:none; border-top: 1px solid var(--border-color); padding-top: 15px;">
             <p class="subtitle mb-10">Japanische Übersetzung:</p>
             <div class="speak-card" style="margin-bottom: 0; text-align: left; padding: 15px; position: relative;">
               <button class="icon-btn text-accent" onclick="playTTS('ja')" style="position: absolute; right: 10px; top: 10px;" title="Japanisch vorlesen"><i class="fa-solid fa-volume-high"></i></button>
+              
               <div class="speak-jp" id="trans-output" style="font-size: 22px; padding-right: 30px;">...</div>
               <p class="small-text mt-10" id="trans-romaji" style="font-size: 16px; color: var(--accent);">...</p>
             </div>
@@ -172,9 +196,12 @@
             <button class="icon-btn text-accent" onclick="openBonusTool('tool-translator')" title="Neuen Satz übersetzen"><i class="fa-solid fa-plus"></i></button>
           </div>
           <p class="subtitle mb-15">Zeige dies einfach den Locals:</p>
-          <div id="speak-list"></div>
+          
+          <div id="speak-list">
+            </div>
         </div>
       </div>
+
     </section>
   </main>
 
