@@ -12,20 +12,26 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s; }
 
+/* HIER IST DER FIX: Verhindert das Durchschimmern am unteren Rand */
 html, body { 
-  background-color: var(--bg-color); 
+  margin: 0;
+  padding: 0;
   width: 100%; 
   height: 100%; 
+  background-color: #000000; /* Zwingt den tiefsten Hintergrund auf Schwarz */
   overflow: hidden; 
-  position: fixed; 
 }
 
+/* HIER IST DER FIX: 100dvh zwingt die App über den kompletten Screen */
 .app-container { 
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%; 
-  height: 100%; 
+  height: 100vh; /* Fallback für ältere Handys */
+  height: 100dvh; /* Der iOS-Zaubertrick! (Dynamic Viewport Height) */
   background-color: var(--bg-color); 
   color: var(--text-main); 
-  position: relative; 
   display: flex; 
   flex-direction: column; 
   overflow: hidden; 
@@ -37,7 +43,6 @@ h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
 .icon-btn { background: none; border: none; color: var(--text-main); font-size: 22px; cursor: pointer; }
 .text-accent { color: var(--accent); }
 
-/* HIER IST DAS UPDATE FÜR DEN INHALT */
 .app-content { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: calc(100px + env(safe-area-inset-bottom)); -webkit-overflow-scrolling: touch; }
 
 .tab-section { display: none; animation: fadeIn 0.2s ease-in-out; }
@@ -132,7 +137,6 @@ textarea.form-input { min-height: 80px; resize: none; }
 .speak-jp { font-size: 24px; font-weight: 700; margin-bottom: 5px; font-family: "Hiragino Kaku Gothic ProN", sans-serif; color: var(--accent); }
 .speak-card .del-btn-small { position: absolute; top: 10px; right: 10px; }
 
-/* HIER IST DAS UPDATE FÜR DIE MENÜLEISTE */
 .bottom-nav { 
   position: absolute; 
   bottom: 0; 
