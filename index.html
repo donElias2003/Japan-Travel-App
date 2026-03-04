@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Japan Trip">
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Flag_of_Japan.svg/512px-Flag_of_Japan.svg.png">
+
+  <title>Japan Trip Planner</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container dark-mode" id="app">
+  <header class="app-header">
+    <div class="header-top">
+      <h1 id="header-title">Travel Planner</h1>
+      <button id="theme-toggle" class="icon-btn"><i class="fa-solid fa-sun"></i></button>
+    </div>
+  </header>
+
+  <main class="app-content">
+    <section id="tab-timetable" class="tab-section active">
+      <div class="calendar-strip" id="calendar-strip"></div>
+      <div class="card mt-15">
+        <div class="card-header">
+          <h2 id="current-date-title">Lade Datum...</h2>
+          <button class="icon-btn text-accent" id="show-tt-form-btn"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div id="add-tt-form" class="mb-15" style="display: none; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+          <div class="input-row">
+            <input type="time" id="tt-time" class="form-input" style="flex: 0.4;">
+            <input type="text" id="tt-title" placeholder="Titel (z.B. Zug)" class="form-input">
+          </div>
+          <input type="text" id="tt-desc" placeholder="Details (Gleis, Terminal...)" class="form-input mt-10">
+          <div class="input-row mt-10">
+            <button id="save-tt-btn" class="primary-btn small-padding">Speichern</button>
+            <button id="cancel-tt-btn" class="secondary-btn small-padding">Abbrechen</button>
+          </div>
+        </div>
+        <div class="timeline" id="timeline-content"></div>
+      </div>
+    </section>
+
+    <section id="tab-money" class="tab-section">
+      <div class="budget-header card">
+        <p class="subtitle">Gesamtausgaben</p>
+        <h1 class="total-spent" id="total-amount">0,00 €</h1>
+      </div>
+      <div class="card add-expense">
+        <input type="text" id="expense-title" placeholder="Was war es? (z.B. Ramen)" class="form-input mb-10">
+        <div class="input-row">
+          <input type="number" id="expense-amount" placeholder="Betrag (€)" step="0.01">
+          <select id="expense-category">
+            <option value="hotel">✈️ Flug & Hotel</option>
+            <option value="food">🍜 Essen</option>
+            <option value="transport">🚄 Transport</option>
+            <option value="sightseeing">⛩️ Sights</option>
+            <option value="shopping">🎁 Shop</option>
+          </select>
+        </div>
+        <button id="add-expense-btn" class="primary-btn mt-10"><i class="fa-solid fa-plus"></i> Hinzufügen</button>
+      </div>
+      <h3 class="section-title">Deine Ausgaben</h3>
+      <div class="filter-bar mb-10">
+        <button class="filter-btn active" data-filter="all">Alle</button>
+        <button class="filter-btn" data-filter="hotel">✈️ Hotel</button>
+        <button class="filter-btn" data-filter="food">🍜 Essen</button>
+        <button class="filter-btn" data-filter="transport">🚄 Trans</button>
+        <button class="filter-btn" data-filter="sightseeing">⛩️ Sights</button>
+        <button class="filter-btn" data-filter="shopping">🎁 Shop</button>
+      </div>
+      <div id="expense-list" class="expense-list"></div>
+    </section>
+
+    <section id="tab-docs" class="tab-section">
+      <p class="subtitle mb-15">Dein lokaler Info-Tresor</p>
+      <div id="hub-list"></div>
+      <div class="card mt-15" id="add-hub-form" style="display: none;">
+        <h3>Neuer Eintrag</h3>
+        <input type="text" id="hub-title" placeholder="Titel (z.B. Hotel)" class="form-input mt-10">
+        <textarea id="hub-desc" placeholder="Details, Adresse, Code..." class="form-input mt-10"></textarea>
+        <div class="input-row mt-10">
+          <button id="save-hub-btn" class="primary-btn small-padding">Speichern</button>
+          <button id="cancel-hub-btn" class="secondary-btn small-padding">Abbrechen</button>
+        </div>
+      </div>
+      <button id="show-hub-form-btn" class="primary-btn mt-10"><i class="fa-solid fa-plus"></i> Eintrag hinzufügen</button>
+    </section>
+
+    <section id="tab-bonus" class="tab-section">
+      <div id="bonus-menu">
+        <ul class="ios-list">
+          <li onclick="openBonusTool('tool-converter')">
+            <div class="li-left"><i class="fa-solid fa-yen-sign icon-bg-blue"></i> Währungsrechner</div><i class="fa-solid fa-chevron-right text-muted"></i>
+          </li>
+          <li onclick="openBonusTool('tool-checklist')">
+            <div class="li-left"><i class="fa-solid fa-check-square icon-bg-orange"></i> Packliste</div><i class="fa-solid fa-chevron-right text-muted"></i>
+          </li>
+          <li onclick="openBonusTool('tool-translator')">
+            <div class="li-left"><i class="fa-solid fa-language icon-bg-accent"></i> Übersetzer</div><i class="fa-solid fa-chevron-right text-muted"></i>
+          </li>
+          <li onclick="openBonusTool('tool-speak')">
+            <div class="li-left"><i class="fa-solid fa-comment-dots icon-bg-purple"></i> Point & Speak</div><i class="fa-solid fa-chevron-right text-muted"></i>
+          </li>
+          <li onclick="openMapSearch('convenience store near me')">
+            <div class="li-left"><i class="fa-solid fa-trash-can icon-bg-green"></i> Müll Radar (Conbini)</div><i class="fa-solid fa-location-dot text-muted"></i>
+          </li>
+          <li onclick="openMapSearch('public toilet near me')">
+            <div class="li-left"><i class="fa-solid fa-restroom icon-bg-green"></i> WC Radar</div><i class="fa-solid fa-location-dot text-muted"></i>
+          </li>
+        </ul>
+      </div>
+
+      <div id="tool-converter" class="sub-page hidden">
+        <button class="back-btn" onclick="closeBonusTool()"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+        <div class="card mt-15">
+          <div class="card-header"><h2>Live-Rechner</h2><span id="live-rate-badge" class="badge">Kurs lädt...</span></div>
+          <div class="converter-box">
+            <p class="subtitle mb-10">Yen eingeben:</p>
+            <input type="number" id="yen-input" placeholder="¥ 1000" oninput="convertYen()">
+            <div class="convert-arrow-down"><i class="fa-solid fa-arrow-down"></i></div>
+            <p class="subtitle mb-10">Das entspricht ca.:</p>
+            <div class="euro-result" id="euro-output">0,00 €</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="tool-checklist" class="sub-page hidden">
+        <button class="back-btn" onclick="closeBonusTool()"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+        <div class="card mt-15">
+          <h2>Packliste</h2>
+          <ul class="checklist mt-15" id="checklist-items"></ul>
+          <div class="input-row mt-15 pt-15" style="border-top: 1px solid var(--border-color);">
+            <input type="text" id="new-pack-item" placeholder="Neues Item..." class="form-input">
+            <button id="add-pack-btn" class="primary-btn" style="flex: 0.3;"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tool-translator" class="sub-page hidden">
+        <button class="back-btn" onclick="closeBonusTool()"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+        <div class="card mt-15">
+          <h2>Übersetzer</h2>
+          <p class="subtitle mb-15">Deutsch <i class="fa-solid fa-arrow-right mx-5"></i> Japanisch</p>
+          <div style="position: relative;">
+            <textarea id="trans-input" class="form-input" placeholder="Text zum Übersetzen eingeben..." style="min-height: 100px; font-size: 18px; padding-right: 40px;"></textarea>
+            <button class="icon-btn text-accent" onclick="playTTS('de')" style="position: absolute; right: 10px; top: 10px;" title="Deutsch vorlesen"><i class="fa-solid fa-volume-high"></i></button>
+          </div>
+          <button class="primary-btn mt-10" id="trans-btn" onclick="translateText()"><i class="fa-solid fa-language"></i> Übersetzen</button>
+          <div class="mt-15" id="trans-result-box" style="display:none; border-top: 1px solid var(--border-color); padding-top: 15px;">
+            <p class="subtitle mb-10">Japanische Übersetzung:</p>
+            <div class="speak-card" style="margin-bottom: 0; text-align: left; padding: 15px; position: relative;">
+              <button class="icon-btn text-accent" onclick="playTTS('ja')" style="position: absolute; right: 10px; top: 10px;" title="Japanisch vorlesen"><i class="fa-solid fa-volume-high"></i></button>
+              <div class="speak-jp" id="trans-output" style="font-size: 22px; padding-right: 30px;">...</div>
+              <p class="small-text mt-10" id="trans-romaji" style="font-size: 16px; color: var(--accent);">...</p>
+            </div>
+            <button class="secondary-btn mt-10" onclick="saveTranslationToSpeak()" style="color: var(--accent);"><i class="fa-solid fa-star"></i> In Point & Speak speichern</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="tool-speak" class="sub-page hidden">
+        <button class="back-btn" onclick="closeBonusTool()"><i class="fa-solid fa-chevron-left"></i> Zurück</button>
+        <div class="card mt-15">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2>Zeige-Karten</h2>
+            <button class="icon-btn text-accent" onclick="openBonusTool('tool-translator')" title="Neuen Satz übersetzen"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <p class="subtitle mb-15">Zeige dies einfach den Locals:</p>
+          <div id="speak-list"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-target="tab-timetable" data-title="Travel Planner"><i class="fa-solid fa-calendar-days"></i><span>Planer</span></button>
+    <button class="nav-item" data-target="tab-money" data-title="Money Tracker"><i class="fa-solid fa-wallet"></i><span>Budget</span></button>
+    <button class="nav-item" data-target="tab-docs" data-title="Travel Hub"><i class="fa-solid fa-vault"></i><span>Hub</span></button>
+    <button class="nav-item" data-target="tab-bonus" data-title="Bonus Tools"><i class="fa-solid fa-toolbox"></i><span>Bonus</span></button>
+  </nav>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
